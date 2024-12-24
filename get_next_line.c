@@ -6,12 +6,11 @@
 /*   By: nosahimi <nosahimi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 12:21:15 by nosahimi          #+#    #+#             */
-/*   Updated: 2024/12/13 10:26:22 by nosahimi         ###   ########.fr       */
+/*   Updated: 2024/12/23 19:32:45 by nosahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-// #include <fcntl.h>
 
 static char	*find_line(int fd, char *container, char *buff)
 {
@@ -19,7 +18,7 @@ static char	*find_line(int fd, char *container, char *buff)
 	ssize_t	r_size;
 
 	r_size = 1;
-	if (BUFFER_SIZE <= 0 || fd < 0)
+	if (BUFFER_SIZE <= 0)
 		return (NULL);
 	while (r_size > 0)
 	{
@@ -29,8 +28,6 @@ static char	*find_line(int fd, char *container, char *buff)
 		buff[r_size] = '\0';
 		if (r_size == 0)
 			break ;
-		if (!container)
-			container = ft_strdup("");
 		temp = ft_strjoin(container, buff);
 		free(container);
 		container = temp;
@@ -45,7 +42,7 @@ static char	*get_line(char *str)
 	size_t	len;
 	char	*line;
 
-	if (!str || !*str)
+	if (!*str)
 		return (NULL);
 	len = 0;
 	while (str[len] && str[len] != '\n')
@@ -61,7 +58,7 @@ static char	*get_rest(char *str)
 	size_t	len;
 	char	*rest;
 
-	if (!str || !*str)
+	if (!*str)
 		return (NULL);
 	len = 0;
 	while (str[len] && str[len] != '\n')
@@ -81,7 +78,7 @@ char	*get_next_line(int fd)
 
 	if (BUFFER_SIZE <= 0 || fd < 0)
 		return (NULL);
-	buff = malloc(BUFFER_SIZE + 1);
+	buff = malloc((size_t)BUFFER_SIZE + 1);
 	if (!buff)
 		return (NULL);
 	temp = find_line(fd, container, buff);
@@ -90,12 +87,27 @@ char	*get_next_line(int fd)
 		free(container);
 		free(buff);
 		container = NULL;
-		return (NULL);
+		return (buff = NULL, NULL);
 	}
 	line = get_line(temp);
 	container = get_rest(temp);
 	free(temp);
 	free(buff);
 	temp = NULL;
+	buff = NULL;
 	return (line);
 }
+// #include <fcntl.h>
+// int main()
+// { 
+// 	int fd = open("test.txt",O_RDONLY);
+// 	char *line;
+// 	while ((line = get_next_line(fd)))
+// 		{
+// 			printf("%s", line);
+// 			free(line);
+// 		}
+// 		// printf("\n \n%d",fd);
+// 		close(fd);
+// 		return 0;
+// }

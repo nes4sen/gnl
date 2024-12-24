@@ -6,7 +6,7 @@
 /*   By: nosahimi <nosahimi@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 21:55:42 by nosahimi          #+#    #+#             */
-/*   Updated: 2024/12/13 10:22:51 by nosahimi         ###   ########.fr       */
+/*   Updated: 2024/12/21 18:51:55 by nosahimi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_strjoin(char *str1, char *str2)
 	size_t	sec_len;
 	size_t	i;
 
-	if (!str1 || !str2)
+	if (!str2)
 		return (NULL);
 	first_len = ft_strlen(str1);
 	sec_len = ft_strlen(str2);
